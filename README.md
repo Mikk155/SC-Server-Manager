@@ -1,0 +1,2 @@
+# SC-Server-Manager
+
