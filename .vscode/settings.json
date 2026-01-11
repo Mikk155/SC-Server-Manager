@@ -1,0 +1,20 @@
+{
+    "[csharp]":
+    {
+        "editor.indentSize": 4,
+        "editor.formatOnPaste": false,
+        "editor.formatOnSave": false,
+        "editor.formatOnType": false,
+        "editor.codeLens": false
+    },
+    "files.exclude":
+    {
+        "**/obj": true,
+        "**/bin": true
+    },
+    "search.exclude":
+    {
+        "**/obj": true,
+        "**/bin": true
+    }
+}
