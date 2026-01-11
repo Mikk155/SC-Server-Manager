@@ -17,4 +17,32 @@ public class Context
 
         this.SvenDirectory = dir;
     }
+
+    public readonly string[] AssetsFolders = [
+        "svencoop_addon",
+        "svencoop",
+        "svencoop_downloads"
+    ];
+
+    public bool AssetExists( string asset, out string? path )
+    {
+        if( asset.Contains( '/' ) )
+        {
+            asset = asset.Replace( '/', Path.PathSeparator );
+        }
+
+        foreach( string folder in this.AssetsFolders )
+        {
+            string assetDirectory = Path.Combine( SvenDirectory, folder, asset );
+
+            if( File.Exists( assetDirectory ) )
+            {
+                path = assetDirectory;
+                return true;
+            }
+        }
+
+        path = null;
+        return false;
+    }
 }
