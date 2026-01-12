@@ -9,6 +9,9 @@ namespace maps
 
         public void Upgrade( Context context )
         {
+            Entity pushEntity = context.Map.Entities.FirstOrDefault( e => e.GetString( "model" ) == "*185" )!;
+            pushEntity.SetInteger( "tiny_monsters", 0 );
+            pushEntity.ClearFlag( "spawnflags", 64 );
         }
     }
 }
