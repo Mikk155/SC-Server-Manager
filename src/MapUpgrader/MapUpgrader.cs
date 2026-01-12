@@ -36,9 +36,17 @@
 
                     Program.context.Map = new MapContext( map );
 
+                    string MapUpgraderVersionName = $"MapUpgrader_{upgradeClass.Name}";
+
                     using( FileStream stream = File.OpenRead( mapDirectory ))
                     {
                         bsp = new Sledge.Formats.Bsp.BspFile( stream );
+
+                        // Get semantic version
+                        Program.context.Map.Version = new SemanticVersion( bsp.Entities[0].Get( MapUpgraderVersionName, "0.0.0" ) );
+
+                        if( !upgrade.ShouldUpgrade( context ) )
+                            continue;
 
                         int i = 0;
                         foreach( Sledge.Formats.Bsp.Objects.Entity entity in bsp.Entities )
@@ -46,7 +54,16 @@
                             Program.context.Map.Entities.Add( new Entity( entity.KeyValues.ToDictionary( kvp => kvp.Key, kvp => kvp.Value ), i++ ) );
                         }
 
-                        Program.Log.Write( $"Upgrading map \"" ).Write( map, ConsoleColor.Green ).WriteLine( "\"" );
+                        Program.Log.Write( $"Upgrading map \"" )
+                            .Write( map, ConsoleColor.Green )
+                            .Write( "\" with upgrade \"" )
+                            .Write( upgradeClass.Name, ConsoleColor.Green )
+                            .Write( "\" " )
+                            .Write( Program.context.Map.Version.ToString(), ConsoleColor.Green )
+                            .Write( " -> " )
+                            .Write( Program.context.Version.ToString(), ConsoleColor.Green )
+                        .WriteLine();
+
                         upgrade.Upgrade( context );
 
                         bsp.Entities.Clear();
@@ -56,6 +73,9 @@
 
                     using( FileStream stream = File.Create( mapDirectory ))
                     {
+                        // Set new version.
+                        Program.context.Map.Entities[0].SetString( MapUpgraderVersionName, Program.context.Version.ToString() );
+
                         List<Sledge.Formats.Bsp.Objects.Entity> sledge_entities = Program.context.Map.Entities
                             .Where( e => e.IsValid() ).Select( e =>
                             {

@@ -9,4 +9,9 @@ public interface IUpgrade
     /// Called when a bsp is to be upgraded
     /// </summary>
     public void Upgrade( Context context );
+
+    /// <summary>
+    /// Return true if this map should be upgraded.
+    /// </summary>
+    public bool ShouldUpgrade( Context context );
 }

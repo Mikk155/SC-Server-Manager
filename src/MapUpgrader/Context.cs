@@ -1,11 +1,11 @@
-public class MapContext( string Name )
-{
-    public readonly string Name = Name;
-    public List<Entity> Entities = new List<Entity>();
-}
-
 public class Context
 {
+    /// <summary>
+    /// Program version, Maps has a version stored in worldspawn as well.
+    /// Use this to not apply changes that has been already applied.
+    /// </summary>
+    public readonly SemanticVersion Version = new SemanticVersion( 1, 0, 0 );
+
     public MapContext Map = null!;
 
     public readonly string SvenDirectory;

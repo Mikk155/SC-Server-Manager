@@ -7,6 +7,11 @@ namespace Upgrades
             return [ "ragemap2016" ];
         }
 
+        public bool ShouldUpgrade( Context context )
+        {
+            return context.Map.Version.Zero;
+        }
+
         public void Upgrade( Context context )
         {
             Entity pushEntity = context.Map.Entities.FirstOrDefault( e => e.GetString( "model" ) == "*185" )!;
