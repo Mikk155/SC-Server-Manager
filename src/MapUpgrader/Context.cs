@@ -16,10 +16,17 @@ public class Context
 
         if( !Directory.Exists( Path.Combine( dir, "svencoop" ) ) )
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine( "Could not find the svencoop directory\nmake sure to execute this program in within the \"Sven Co-op\" folder." );
-            Console.Beep();
-            Console.ResetColor();
+            Program.Log.Write( "Error: ", ConsoleColor.Red )
+                .Write( "Could not find the \"" )
+                .Write( "svencoop", ConsoleColor.Green )
+                .Write( "\" directory." )
+                .WriteLine()
+                .Write( "Make sure to execute this program in within the \"" )
+                .Write( "Sven Co-op", ConsoleColor.Red )
+                .Write( "\" folder." )
+                .WriteLine()
+                .Beep()
+                .Pause();
             Environment.Exit(1);
         }
 

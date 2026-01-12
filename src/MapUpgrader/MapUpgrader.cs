@@ -1,10 +1,13 @@
 ﻿public static class Program
 {
     private static List<IUpgrade> Upgrades = new List<IUpgrade>();
-    private static Context context = new Context();
+    public static CLog Log = new CLog();
+    private static Context context = null!;
 
     public static void Main( string[] args )
     {
+        context = new Context();
+
         System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
         var types = assembly.GetTypes().Where( t =>
@@ -28,6 +31,8 @@
                     if( !Program.context.AssetExists( $"maps/{map}.bsp", out mapDirectory ) || string.IsNullOrWhiteSpace( mapDirectory ) )
                         continue;
 
+                    Program.Log.Write( $"Reading map \"" ).Write( map, ConsoleColor.Green ).WriteLine( "\"" );
+
                     Sledge.Formats.Bsp.BspFile bsp = null!;
 
                     Program.context.Map = new MapContext( map );
@@ -42,10 +47,13 @@
                             Program.context.Map.Entities.Add( new Entity( entity.KeyValues.ToDictionary( kvp => kvp.Key, kvp => kvp.Value ), i++ ) );
                         }
 
+                        Program.Log.Write( $"Upgrading map \"" ).Write( map, ConsoleColor.Green ).WriteLine( "\"" );
                         upgrade.Upgrade( context );
 
                         bsp.Entities.Clear();
                     }
+
+                    Program.Log.Write( $"Writing map \"" ).Write( map, ConsoleColor.Green ).WriteLine( "\"" );
 
                     using( FileStream stream = File.Create( mapDirectory ))
                     {
@@ -72,7 +80,5 @@
                 }
             }
         }
-
-        Console.WriteLine( context.SvenDirectory );
     }
 }
