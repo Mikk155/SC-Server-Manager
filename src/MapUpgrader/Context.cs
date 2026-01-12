@@ -43,7 +43,13 @@ public class Context
     {
         if( asset.Contains( '/' ) )
         {
-            asset = asset.Replace( '/', Path.PathSeparator );
+            string[] paths = asset.Split( '/' );
+            asset = string.Empty;
+            foreach( string p in paths )
+            {
+                asset = Path.Combine( asset, p );
+            }
+//            asset = asset.Replace( '/', Path.PathSeparator );
         }
 
         foreach( string folder in this.AssetsFolders )
