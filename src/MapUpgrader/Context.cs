@@ -1,5 +1,13 @@
+public class MapContext( string Name )
+{
+    public readonly string Name = Name;
+    public List<Entity> Entities = new List<Entity>();
+}
+
 public class Context
 {
+    public MapContext Map = null!;
+
     public readonly string SvenDirectory;
 
     public Context()
