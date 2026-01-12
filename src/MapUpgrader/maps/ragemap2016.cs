@@ -1,6 +1,6 @@
-namespace maps
+namespace Upgrades
 {
-    public class ragemap2016 : IUpgrade
+    class ragemap2016 : IUpgrade
     {
         public string[] Maps()
         {

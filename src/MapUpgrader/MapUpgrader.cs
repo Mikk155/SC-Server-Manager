@@ -10,17 +10,16 @@
 
         System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
-        var types = assembly.GetTypes().Where( t =>
+        var upgradesList = assembly.GetTypes().Where( t =>
             typeof(IUpgrade).IsAssignableFrom(t)
             && !t.IsInterface
-            && !t.IsAbstract
             && t.Namespace != null
-            && t.Namespace == "maps"
+            && t.Namespace == "Upgrades"
         );
 
-        foreach( Type? type in types )
+        foreach( Type? upgradeClass in upgradesList )
         {
-            if( Activator.CreateInstance(type) is IUpgrade upgrade )
+            if( Activator.CreateInstance( upgradeClass ) is IUpgrade upgrade )
             {
                 string[] maps = upgrade.Maps();
 
