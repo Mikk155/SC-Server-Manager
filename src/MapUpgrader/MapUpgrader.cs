@@ -6,6 +6,9 @@
 
     public static void Main( string[] args )
     {
+        List<string> UpgradesCount = new List<string>();
+        List<string> UpgradedMaps = new List<string>();
+
         context = new Context();
 
         System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
@@ -66,6 +69,12 @@
 
                         upgrade.Upgrade( context );
 
+                        if( !UpgradesCount.Contains( upgradeClass.Name ) )
+                            UpgradesCount.Add( upgradeClass.Name );
+
+                        if( !UpgradedMaps.Contains( map ) )
+                            UpgradedMaps.Add( map );
+
                         bsp.Entities.Clear();
                     }
 
@@ -99,5 +108,16 @@
                 }
             }
         }
+
+        Log.Write( "All done!" )
+            .WriteLine()
+            .Write( "Applied " )
+            .Write( UpgradesCount.Count.ToString(), ConsoleColor.Green )
+            .Write( " Upgrades to " )
+            .Write( UpgradedMaps.Count.ToString(), ConsoleColor.Green )
+            .Write( " maps." )
+            .WriteLine()
+            .Beep()
+        .Pause();
     }
 }
